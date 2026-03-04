@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JSON Log Manager — API Testing Tool</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- ─── HEADER ────────────────────────────────────────────────────────────── -->
+        <div class="header">
+            <div class="header-inner">
+                <div class="header-top">
+                    <h1>JSON Log Manager</h1>
+                    <span class="badge badge-version">v1.0</span>
+                    <span class="badge badge-oas">TESTER TOOL</span>
+                </div>
+                <div class="header-subtitle">
+                    Công cụ lưu trữ &amp; kiểm tra JSON log — API Testing
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── TOOLBAR ───────────────────────────────────────────────────────────── -->
+        <div class="toolbar">
+            <input
+                class="search-box"
+                id="searchInput"
+                type="text"
+                placeholder="🔍 Tìm kiếm theo path, mô tả, group..."
+                oninput="renderAll()"
+            />
+            <button class="btn btn-primary" onclick="toggleAddPanel()">
+                ＋ Thêm Log
+            </button>
+            <button class="btn btn-secondary" onclick="exportData()">
+                ⬇ Xuất JSON
+            </button>
+            <button class="btn btn-secondary" onclick="triggerImport()">
+                ⬆ Nhập JSON
+            </button>
+            <button class="btn btn-danger" onclick="clearAll()">
+                🗑 Xoá hết
+            </button>
+            <input
+                type="file"
+                id="importFile"
+                accept=".json"
+                style="display: none"
+                onchange="importData(event)"
+            />
+        </div>
+
+        <!-- ─── MAIN ──────────────────────────────────────────────────────────────── -->
+        <div class="main">
+            <!-- ADD PANEL -->
+            <div class="add-panel" id="addPanel">
+                <div class="add-panel-header" onclick="toggleAddPanel()">
+                    <h3>✏️ Thêm Log Entry mới</h3>
+                    <span
+                        style="font-size: 18px; color: #1e7e4e"
+                        id="addChevron"
+                        >▼</span
+                    >
+                </div>
+                <div class="add-panel-body" id="addBody">
+                    <div class="form-row">
+                        <div class="form-group" style="max-width: 120px">
+                            <label>Method</label>
+                            <select
+                                class="form-control method-select"
+                                id="fMethod"
+                            >
+                                <option value="POST">POST</option>
+                                <option value="GET">GET</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PATCH">PATCH</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Endpoint / Path</label>
+                            <input
+                                class="form-control"
+                                id="fPath"
+                                placeholder="/api/v1/example"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả</label>
+                            <input
+                                class="form-control"
+                                id="fDesc"
+                                placeholder="Mô tả ngắn cho endpoint này"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nhóm (Group)</label>
+                            <input
+                                class="form-control"
+                                id="fGroup"
+                                placeholder="Ví dụ: 01 - Bill Payment APIs"
+                            />
+                        </div>
+                        <div class="form-group" style="max-width: 160px">
+                            <label>Status</label>
+                            <select class="form-control" id="fStatus">
+                                <option value="ok">✅ OK / Pass</option>
+                                <option value="err">❌ Error / Fail</option>
+                                <option value="pending">⏳ Pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>📤 Client Request</label>
+                            <textarea
+                                class="form-control"
+                                id="fRequest"
+                                placeholder='{"key": "value"}'
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>📨 Bank Request</label>
+                            <textarea
+                                class="form-control"
+                                id="fResponse"
+                                placeholder='{"key": "value"}'
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>📩 Bank Response</label>
+                            <textarea
+                                class="form-control"
+                                id="fBankResponse"
+                                placeholder='{"status": 200, "data": {}}'
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>📥 Response Client</label>
+                            <textarea
+                                class="form-control"
+                                id="fClientResponse"
+                                placeholder='{"status": 200, "data": {}}'
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ghi chú / Notes</label>
+                            <textarea
+                                class="form-control"
+                                id="fNotes"
+                                placeholder="Ghi chú, bug, kết quả test..."
+                                style="min-height: 70px"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div
+                        style="
+                            display: flex;
+                            gap: 10px;
+                            justify-content: flex-end;
+                        "
+                    >
+                        <button
+                            class="btn btn-secondary"
+                            onclick="toggleAddPanel()"
+                        >
+                            Huỷ
+                        </button>
+                        <button class="btn btn-primary" onclick="saveLog()">
+                            💾 Lưu Log
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOG LIST -->
+            <div id="logList"></div>
+        </div>
+
+        <!-- TOAST -->
+        <div class="toast" id="toast"></div>
+
+        <script src="app.js"></script>
+    </body>
+</html>

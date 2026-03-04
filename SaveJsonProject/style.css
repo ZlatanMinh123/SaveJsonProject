@@ -1,0 +1,407 @@
+/* ─── VARIABLES ─────────────────────────────────────────────────────────────── */
+:root {
+  --green: #49cc90;
+  --green-bg: #e7f7f0;
+  --green-border: #c3e8d8;
+  --blue: #61affe;
+  --blue-bg: #e7f0ff;
+  --orange: #fca130;
+  --red: #f93e3e;
+  --red-bg: #fde8e8;
+  --gray: #3b4151;
+  --gray-light: #f5f5f5;
+  --gray-mid: #e8e8e8;
+  --text: #3b4151;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fafafa;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─────────────────────────────────────────────────────────────────── */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-mid);
+  padding: 20px 0;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gray);
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Source Code Pro', monospace;
+}
+.badge-version { background: #89bf04; color: white; }
+.badge-oas { background: #61affe; color: white; }
+.header-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'Source Code Pro', monospace;
+}
+
+/* ─── TOOLBAR ────────────────────────────────────────────────────────────────── */
+.toolbar {
+  max-width: 1100px;
+  margin: 20px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 1px solid var(--gray-mid);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box:focus { border-color: var(--green); }
+.search-box::placeholder { color: #aaa; }
+
+/* ─── BUTTONS ────────────────────────────────────────────────────────────────── */
+.btn {
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--green); color: white; }
+.btn-primary:hover { background: #3db87a; }
+.btn-secondary { background: var(--white); color: var(--text); border: 1px solid var(--gray-mid); }
+.btn-secondary:hover { background: var(--gray-light); }
+.btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid #f5c0c0; }
+.btn-danger:hover { background: #fbd0d0; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* ─── MAIN LAYOUT ────────────────────────────────────────────────────────────── */
+.main {
+  max-width: 1100px;
+  margin: 20px auto 60px;
+  padding: 0 24px;
+}
+
+/* ─── ADD LOG PANEL ──────────────────────────────────────────────────────────── */
+.add-panel {
+  background: var(--white);
+  border: 1px solid var(--gray-mid);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.add-panel-header {
+  background: var(--green-bg);
+  border-bottom: 1px solid var(--green-border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-panel-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e7e4e;
+}
+.add-panel-body {
+  padding: 20px;
+  display: none;
+}
+.add-panel-body.open { display: block; }
+
+/* ─── FORM ───────────────────────────────────────────────────────────────────── */
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 140px;
+}
+.form-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.form-control {
+  padding: 9px 13px;
+  border: 1px solid var(--gray-mid);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus { border-color: var(--green); }
+.method-select option { font-weight: 700; }
+textarea.form-control {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ─── GROUP BLOCK ────────────────────────────────────────────────────────────── */
+.group-block {
+  margin-bottom: 16px;
+  border: 1px solid var(--gray-mid);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--gray-light);
+  border-bottom: 1px solid var(--gray-mid);
+  cursor: pointer;
+  user-select: none;
+}
+.group-header:hover { background: #efefef; }
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.group-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gray);
+}
+.group-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.group-chevron {
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.group-chevron.collapsed { transform: rotate(-90deg); }
+.group-body { display: block; }
+.group-body.collapsed { display: none; }
+
+/* ─── LOG ENTRY ──────────────────────────────────────────────────────────────── */
+.log-entry {
+  border-bottom: 1px solid #f0f0f0;
+}
+.log-entry:last-child { border-bottom: none; }
+.log-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.log-header:hover { background: #f9f9f9; }
+
+/* ─── METHOD BADGE ───────────────────────────────────────────────────────────── */
+.method-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'Source Code Pro', monospace;
+  min-width: 60px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.method-POST   { background: var(--green);  color: white; }
+.method-GET    { background: var(--blue);   color: white; }
+.method-PUT    { background: var(--orange); color: white; }
+.method-DELETE { background: var(--red);    color: white; }
+.method-PATCH  { background: #9b59b6;       color: white; }
+
+.log-path {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray);
+  flex: 1;
+}
+.log-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.log-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.log-time {
+  font-size: 11px;
+  color: #aaa;
+  font-family: 'Source Code Pro', monospace;
+}
+
+/* ─── STATUS DOT ─────────────────────────────────────────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.status-ok      { background: var(--green); }
+.status-err     { background: var(--red); }
+.status-pending { background: var(--orange); }
+
+/* ─── LOG DETAIL ─────────────────────────────────────────────────────────────── */
+.log-detail {
+  display: none;
+  border-top: 1px solid #f0f0f0;
+}
+.log-detail.open { display: block; }
+
+.detail-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--gray-mid);
+  background: var(--gray-light);
+}
+.detail-tab {
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.detail-tab:hover { color: var(--gray); }
+.detail-tab.active { color: var(--green); border-bottom-color: var(--green); background: white; }
+
+.detail-pane {
+  padding: 16px 20px;
+  display: none;
+}
+.detail-pane.active { display: block; }
+
+/* ─── CODE BLOCK ─────────────────────────────────────────────────────────────── */
+.code-block {
+  background: #1e2432;
+  color: #a8b2d8;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  overflow: auto;
+  max-height: 400px;
+  white-space: pre;
+  line-height: 1.6;
+  position: relative;
+}
+.code-block .key    { color: #79b8ff; }
+.code-block .string { color: #9ecbff; }
+.code-block .number { color: #79b8ff; }
+.code-block .bool   { color: #f97583; }
+.code-block .null   { color: #f97583; }
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+}
+.copy-btn:hover { background: rgba(255,255,255,0.2); }
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid #f0f0f0;
+  background: var(--gray-light);
+  justify-content: flex-end;
+}
+
+/* ─── EMPTY STATE ────────────────────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }
+
+/* ─── TOAST ──────────────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--gray);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 700;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .form-row { flex-direction: column; }
+  .log-desc { display: none; }
+}
